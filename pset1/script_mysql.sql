@@ -52,9 +52,9 @@ ALTER TABLE localizacoes MODIFY COLUMN endereco VARCHAR(50) COMMENT 'Endereço d
 
 ALTER TABLE localizacoes MODIFY COLUMN cep VARCHAR(12) COMMENT 'CEP da localização de uma facilidade da empresa.';
 
-ALTER TABLE localizacoes MODIFY COLUMN cidade VARCHAR(50) COMMENT 'Cidade onde estã localizado a facilidade da empresa.';
+ALTER TABLE localizacoes MODIFY COLUMN cidade VARCHAR(50) COMMENT 'Cidade onde estã localizada a facilidade da empresa.';
 
-ALTER TABLE localizacoes MODIFY COLUMN uf VARCHAR(25) COMMENT 'er inserido abreviado ou por extenso).';
+ALTER TABLE localizacoes MODIFY COLUMN uf VARCHAR(25) COMMENT 'Estado onde está localizada a facilidade da empresa (UF ou por extenso)';
 
 ALTER TABLE localizacoes MODIFY COLUMN id_pais CHAR(2) COMMENT 'Chave estrangeira para a tabela países.';
 
@@ -102,21 +102,21 @@ ALTER TABLE empregados MODIFY COLUMN id_empregado INTEGER COMMENT 'Chave primár
 
 ALTER TABLE empregados MODIFY COLUMN nome VARCHAR(75) COMMENT 'Nome completo do empregado.';
 
-ALTER TABLE empregados MODIFY COLUMN email VARCHAR(35) COMMENT ' do @).';
+ALTER TABLE empregados MODIFY COLUMN email VARCHAR(35) COMMENT 'Parte inicial do endereço de email do empregado (antes do @)';
 
-ALTER TABLE empregados MODIFY COLUMN telefone VARCHAR(20) COMMENT 'icadores de país e estado)';
+ALTER TABLE empregados MODIFY COLUMN telefone VARCHAR(20) COMMENT 'Telefone do empregado (existe espaço para identificar país e estado)';
 
 ALTER TABLE empregados MODIFY COLUMN data_contratacao DATE COMMENT 'Data de contratação do empregado no cargo atual.';
 
-ALTER TABLE empregados MODIFY COLUMN id_cargo VARCHAR(10) COMMENT 'argo do empregado na empresa.';
+ALTER TABLE empregados MODIFY COLUMN id_cargo VARCHAR(10) COMMENT 'Chave estrangeira para a tabela cargos, atual cargo do empregado na empresa.';
 
 ALTER TABLE empregados MODIFY COLUMN salario DECIMAL(4, 2) COMMENT 'Atual salário mensal do empregado.';
 
-ALTER TABLE empregados MODIFY COLUMN comissao DECIMAL(4, 2) COMMENT 'ncionários do setor de vendas podem ter uma comissão atribuída a seu cargo.';
+ALTER TABLE empregados MODIFY COLUMN comissao DECIMAL(4, 2) COMMENT '% de comissão recebida pelo funcionário, a comiisão é excluisva para o setor de vendas.';
 
-ALTER TABLE empregados MODIFY COLUMN id_departamento INTEGER COMMENT 'l departamento de atuação do funcionário.';
+ALTER TABLE empregados MODIFY COLUMN id_departamento INTEGER COMMENT 'Chave estrangeira para a tabela departamentos, atual departamento do funcionário.';
 
-ALTER TABLE empregados MODIFY COLUMN id_supervisor INTEGER COMMENT ' supervisor direto do empregado, que pode ou não ser o mesmo gerente do departamento referenciado como id_gerente na tabela departamentos.';
+ALTER TABLE empregados MODIFY COLUMN id_supervisor INTEGER COMMENT ' Chave estrangeira para a prórpia tabela empregados. Indica o supervisor direto do empregado, pode ou não ser o mesmo gerente do departamento.';
 
 
 CREATE UNIQUE INDEX empregados_idx
@@ -137,9 +137,9 @@ ALTER TABLE departamentos MODIFY COLUMN id_departamento INTEGER COMMENT 'Chave p
 
 ALTER TABLE departamentos MODIFY COLUMN nome VARCHAR(50) COMMENT 'Nome do departamento referenciado.';
 
-ALTER TABLE departamentos MODIFY COLUMN id_localizacao INTEGER COMMENT 'alização do departamento.';
+ALTER TABLE departamentos MODIFY COLUMN id_localizacao INTEGER COMMENT 'Chave estrageira para a tabela localizações, a localização do departamento.';
 
-ALTER TABLE departamentos MODIFY COLUMN id_gerente INTEGER COMMENT 'ouver, o empregado que cumpre a função de gerente do departamento referenciado.';
+ALTER TABLE departamentos MODIFY COLUMN id_gerente INTEGER COMMENT 'Chave estrangeira para a tabela empregados, representa, se houver, o gerente do departamento referenciado.';
 
 
 CREATE UNIQUE INDEX departamentos_idx
@@ -155,17 +155,17 @@ CREATE TABLE historico_cargos (
                 PRIMARY KEY (id_empregado, data_inicial)
 );
 
-ALTER TABLE historico_cargos COMMENT 'nto em um mesmo cargo, uma nova linha deve ser adiocnada a tabela com as informações antigas do empregado.';
+ALTER TABLE historico_cargos COMMENT 'Tabela histórico de cargos, o histórico dos empregados dentro dos cargos que eles ocuparam por um tempo determinado na empresa. Quando um empregado muda de cargo dentro de um departamento ou quando muda de departamento em um mesmo cargo, uma nova linha deve ser adiocnada a tabela com as informações antigas do empregado.';
 
-ALTER TABLE historico_cargos MODIFY COLUMN id_empregado INTEGER COMMENT 'de cargos (id_empregado e data_inicial). Também é uma chave estrangeira da tabela empregados, referencia o empregado na linha que serão adicionadas as informações sobre seu histórico em cada cargo ocupado na empresa.';
+ALTER TABLE historico_cargos MODIFY COLUMN id_empregado INTEGER COMMENT 'Parte da chave primária composta para a tabela de histórico de cargos (id_empregado e data_inicial). Também é uma chave estrangeira da tabela empregados, referencia o empregado no seu histórico em cada cargo ocupado na empresa.';
 
-ALTER TABLE historico_cargos MODIFY COLUMN data_inicial DATE COMMENT 'de cargos (id_empregado e data_inicial). Indica a data inicial de um empregado em um cargo específico, precisa ser menor que a data_final na tabela.';
+ALTER TABLE historico_cargos MODIFY COLUMN data_inicial DATE COMMENT 'Parte da chave primária composta para a tabela histórico de cargos (id_empregado e data_inicial). Indica a data de inicio de um cargo, precisa ser menor que a data_final na tabela.';
 
-ALTER TABLE historico_cargos MODIFY COLUMN data_final DATE COMMENT 've ser maior que a data_inicial na tabela.';
+ALTER TABLE historico_cargos MODIFY COLUMN data_final DATE COMMENT 'Indica a data do fim de um cargo, precisa ser maior que a data_inicial na tabela.';
 
-ALTER TABLE historico_cargos MODIFY COLUMN id_cargo VARCHAR(10) COMMENT ' a pessoa ocupava no passado, no perídodo referenciado pelas datas.';
+ALTER TABLE historico_cargos MODIFY COLUMN id_cargo VARCHAR(10) COMMENT 'Chave estrangeira da tabela cragos, referencia o cargo que a pessoa ocupava no passado a pessoa ocupava no passado';
 
-ALTER TABLE historico_cargos MODIFY COLUMN id_departamento INTEGER COMMENT 'partamento que a pessoa pertencia no passado, no perídodo referenciado pelas datas.';
+ALTER TABLE historico_cargos MODIFY COLUMN id_departamento INTEGER COMMENT 'Representa o departamento que a pessoa pertencia no passado';
 
 
 ALTER TABLE paises ADD CONSTRAINT regioes_paises_fk
