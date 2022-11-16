@@ -7,9 +7,6 @@ CREATE DATABASE uvv
 COMMENT "Banco de dados para o PSet 1"
 ;
 
--- alteração de usuário para o novo usuário beatriz_teixeira
-\c "user=beatriz_teixeira password=beatriz@raiz dbname=uvv"
-
 -- criação esquema hr 
 CREATE SCHEMA hr 
 COMMENT 'Esquema para as tabelas'
