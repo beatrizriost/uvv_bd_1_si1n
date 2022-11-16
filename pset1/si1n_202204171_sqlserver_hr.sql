@@ -1,14 +1,3 @@
--- criação usuário beatriz_teixeira
-
--- criação banco de dados uvv
-
--- alteraração do 'search_path' do usuário beatriz_teixeira
-
--- troca de usuário para o novo usuário beatriz_teixeira
-\c "user=beatriz_teixeira password=beatriz@raiz dbname=uvv"
-
--- criação esquema hr
-
 -- criação tabela regiões
 CREATE TABLE regioes (
                 id_regiao INT NOT NULL,
